@@ -5,8 +5,8 @@ function App() {
   return (
     <div className="background">
       <div className="mask">
-        <Headline></Headline>
-        <Content></Content>
+        <Headline />
+        <Content />
       </div>
     </div>
   );

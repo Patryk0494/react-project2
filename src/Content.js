@@ -20,19 +20,25 @@ export default function Content() {
     }
 
     function sendRequestAndGetData() {
+        if (!amount) {
+            setAmountOutput (`Podaj kwotę do przeliczenia.`);
+            return;
+        }
+
         fetch(`http://api.nbp.pl/api/exchangerates/rates/C/${currency}/today/`).then(response => response.json())
         .then( function(response) {
             let rateExchange = response.rates[0].ask;
             let sum = convert(amount, rateExchange);
-            amount ? setAmountOutput (`Po przeliczniu na PLN to ${sum.toFixed(2)} zł.`) : setAmountOutput (`Podaj kwotę do przeliczenia.`)
-        }).catch(error => {
+            setAmountOutput (`Po przeliczniu na PLN to ${sum.toFixed(2)} zł.`)
+        })
+        .catch(error => {
             console.log("error: ", error);
         });
     }
 
     return (
         <div className="content container">
-            <input className="amount-input" type="number" name="amount" value={amount} onChange={onInputChange}></input>
+            <input className="amount-input" type="number" name="amount" value={amount} onChange={onInputChange} />
             <select className="currency-select" name="currency" onChange={onSelectChange}>  
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
